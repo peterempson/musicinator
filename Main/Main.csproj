@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>main</RootNamespace>
-    <AssemblyName>main</AssemblyName>
+    <RootNamespace>Main</RootNamespace>
+    <AssemblyName>Main</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -31,10 +31,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <Import Project="..\ManagedMidi\ManagedMidi.projitems" Label="Shared" Condition="Exists('..\ManagedMidi\ManagedMidi.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

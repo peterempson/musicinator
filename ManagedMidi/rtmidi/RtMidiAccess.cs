@@ -15,15 +15,15 @@ namespace Commons.Music.Midi.RtMidi
 			get { return MidiDeviceManager.AllDevices.Where (d => d.IsOutput).Select (d => new RtMidiPortDetails (d)); }
 		}
 		
-		public Task<IMidiInput> OpenInputAsync (string portId)
+		public Task<IMidiInput> OpenInputAsync (IMidiPortDetails port)
 		{
-			var p = new RtMidiInput ((RtMidiPortDetails) Inputs.First (i => i.Id == portId));
+			var p = new RtMidiInput (port);
 			return p.OpenAsync ().ContinueWith (t => (IMidiInput) p);
 		}
-		
-		public Task<IMidiOutput> OpenOutputAsync (string portId)
+
+		public Task<IMidiOutput> OpenOutputAsync (IMidiPortDetails port)
 		{
-			var p = new RtMidiOutput ((RtMidiPortDetails) Outputs.First (i => i.Id == portId));
+			var p = new RtMidiOutput (port);
 			return p.OpenAsync ().ContinueWith (t => (IMidiOutput) p);
 		}
 
@@ -57,7 +57,7 @@ namespace Commons.Music.Midi.RtMidi
 	{
 		static internal Task completed_task = Task.FromResult (false);
 
-		protected RtMidiPort (RtMidiPortDetails portDetails)
+		protected RtMidiPort (IMidiPortDetails portDetails)
 		{
 			if (portDetails == null)
 				throw new ArgumentNullException ("portDetails");
@@ -84,7 +84,7 @@ namespace Commons.Music.Midi.RtMidi
 
 	class RtMidiInput : RtMidiPort, IMidiInput
 	{
-		public RtMidiInput (RtMidiPortDetails portDetails)
+		public RtMidiInput (IMidiPortDetails portDetails)
 			: base (portDetails)
 		{
 		}
@@ -113,7 +113,7 @@ namespace Commons.Music.Midi.RtMidi
 
 	class RtMidiOutput : RtMidiPort, IMidiOutput
 	{
-		public RtMidiOutput (RtMidiPortDetails portDetails)
+		public RtMidiOutput (IMidiPortDetails portDetails)
 			: base (portDetails)
 		{
 		}

@@ -9,6 +9,27 @@
     <Import_RootNamespace>ManagedMidi</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)MyClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)base\MidiAccessManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)base\MidiMachine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)base\MidiPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)base\MidiTimeManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)base\SMF.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)module-database\MidiModuleDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)portmidi\PortMidiAccess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)portmidi\PortMidiPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)portmidi\PortMidiSharp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)rtmidi\RtMidiAccess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)rtmidi\RtMidiPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)rtmidi\RtMidiSharp.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)module-database\data\README" />
+    <None Include="$(MSBuildThisFileDirectory)module-database\data\midi-module-catalog.txt" />
+    <None Include="$(MSBuildThisFileDirectory)module-database\data\ms_gs_wavetable_synth.midimod" />
+    <None Include="$(MSBuildThisFileDirectory)module-database\data\roland_sc-88.midimod" />
+    <None Include="$(MSBuildThisFileDirectory)module-database\data\roland_sc-8820.midimod" />
+    <None Include="$(MSBuildThisFileDirectory)module-database\data\roland_sc-88pro.midimod" />
+    <None Include="$(MSBuildThisFileDirectory)module-database\data\yamaha_motif-rack_es.midimod" />
+    <None Include="$(MSBuildThisFileDirectory)portmidi\README" />
   </ItemGroup>
 </Project>

@@ -31,8 +31,8 @@ namespace Commons.Music.Midi
 		IEnumerable<IMidiPortDetails> Inputs { get; }
 		IEnumerable<IMidiPortDetails> Outputs { get; }
 
-		Task<IMidiInput> OpenInputAsync (string portId);
-		Task<IMidiOutput> OpenOutputAsync (string portId);
+		Task<IMidiInput> OpenInputAsync (IMidiPortDetails port);
+		Task<IMidiOutput> OpenOutputAsync (IMidiPortDetails port);
 		event EventHandler<MidiConnectionEventArgs> StateChanged;
 	}
 
@@ -99,17 +99,17 @@ namespace Commons.Music.Midi
 			get { yield return EmptyMidiOutput.Instance.Details; }
 		}
 		
-		public Task<IMidiInput> OpenInputAsync (string portId)
+		public Task<IMidiInput> OpenInputAsync (IMidiPortDetails port)
 		{
-			if (portId != EmptyMidiInput.Instance.Details.Id)
-				throw new ArgumentException (string.Format ("Port ID {0} does not exist.", portId));
+			if (port != EmptyMidiInput.Instance.Details)
+				throw new ArgumentException (string.Format ("Port ID {0} does not exist.", port.Id));
 			return Task.FromResult<IMidiInput> (EmptyMidiInput.Instance);
 		}
 		
-		public Task<IMidiOutput> OpenOutputAsync (string portId)
+		public Task<IMidiOutput> OpenOutputAsync (IMidiPortDetails port)
 		{
-			if (portId != EmptyMidiOutput.Instance.Details.Id)
-				throw new ArgumentException (string.Format ("Port ID {0} does not exist.", portId));
+			if (port != EmptyMidiOutput.Instance.Details)
+				throw new ArgumentException (string.Format ("Port ID {0} does not exist.", port.Id));
 			return Task.FromResult<IMidiOutput> (EmptyMidiOutput.Instance);
 		}
 

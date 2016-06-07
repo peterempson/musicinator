@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "main", "main\main.csproj", "{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ManagedMidi", "ManagedMidi\ManagedMidi.shproj", "{F514C5DB-F6A4-46D2-A3CD-A940CF2D54DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", "{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

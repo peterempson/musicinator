@@ -23,16 +23,16 @@ namespace Commons.Music.Midi.PortMidi
 			if (MidiDeviceManager.DeviceCount < 0)
 				throw new InvalidOperationException ("unexpected negative device count.");
 		}
-		
-		public Task<IMidiInput> OpenInputAsync (string portId)
+
+		public Task<IMidiInput> OpenInputAsync (IMidiPortDetails port)
 		{
-			var p = new PortMidiInput ((PortMidiPortDetails) Inputs.First (i => i.Id == portId));
+			var p = new PortMidiInput (port);
 			return p.OpenAsync ().ContinueWith (t => (IMidiInput) p);
 		}
 		
-		public Task<IMidiOutput> OpenOutputAsync (string portId)
+		public Task<IMidiOutput> OpenOutputAsync (IMidiPortDetails port)
 		{
-			var p = new PortMidiOutput ((PortMidiPortDetails) Outputs.First (i => i.Id == portId));
+			var p = new PortMidiOutput (port);
 			return p.OpenAsync ().ContinueWith (t => (IMidiOutput) p);
 		}
 	}
@@ -64,7 +64,7 @@ namespace Commons.Music.Midi.PortMidi
 	{
 		static internal Task completed_task = Task.FromResult (false);
 
-		protected PortMidiPort (PortMidiPortDetails portDetails)
+		protected PortMidiPort (IMidiPortDetails portDetails)
 		{
 			if (portDetails == null)
 				throw new ArgumentNullException ("portDetails");
@@ -91,7 +91,7 @@ namespace Commons.Music.Midi.PortMidi
 
 	class PortMidiInput : PortMidiPort, IMidiInput
 	{
-		public PortMidiInput (PortMidiPortDetails portDetails)
+		public PortMidiInput (IMidiPortDetails portDetails)
 			: base (portDetails)
 		{
 		}
@@ -120,7 +120,7 @@ namespace Commons.Music.Midi.PortMidi
 
 	class PortMidiOutput : PortMidiPort, IMidiOutput
 	{
-		public PortMidiOutput (PortMidiPortDetails portDetails)
+		public PortMidiOutput (IMidiPortDetails portDetails)
 			: base (portDetails)
 		{
 		}
