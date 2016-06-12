@@ -1,31 +1,36 @@
 ﻿using System;
-using Commons.Music.Midi;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Maestro.Control;
+using Maestro.Capsule;
+using Maestro.Minion;
 
 namespace Main
 {
 	class MainClass
 	{
-		public static void Main (string [] args)
+		public static void Main (string[] args)
 		{
 			new MainClass ().doit ();
 		}
 
-		async void doit() 
+		void doit ()
 		{
-			IMidiAccess access;
 
-			access = MidiAccessManager.Default;
-			IMidiPortDetails mout = access.Outputs.ElementAt(1);
-			IMidiOutput output = access.OpenOutputAsync (mout).Result;
-			Console.WriteLine (output.Connection);
-			Task t = output.SendAsync (new byte[] { (byte) (0x91), 49, 100 }, 0, 3, 0);
-			await t;
+			TickTock k = new TickTock ();
+//			k.Add (Note.GetNote (Note.Pitch.A4, 4, 85));
+//			k.Add (Note.GetNote (50, Note.Pitch.A4, 4, 85));
 
-			//[0x90, 48, 100]
-			//Console.WriteLine (access.Outputs.ElementAt(1));
+			ICapsule c = BigCapsule.GetMarchingMinions (0,
+				             Note.GetNote (Note.Pitch.A4, 4, 85),
+				             Note.GetNote (Note.Pitch.A4, 4, 100),
+				             Note.GetNote (Note.Pitch.C5, 4, 85),
+				             Note.GetNote (Note.Pitch.E5, 4, 85),
+				             Note.GetNote (Note.Pitch.A5, 1, 100),
+				             Note.GetNote (Note.Pitch.F5, 1, 100));
+			k.Add (c);
+	
+			k.Start ();
+
+			Console.ReadLine ();
 		}
 	}
 }

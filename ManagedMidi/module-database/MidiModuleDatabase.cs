@@ -13,7 +13,7 @@ namespace Commons.Music.Midi
 	public abstract class MidiModuleDatabase
 	{
 		public static readonly MidiModuleDatabase Default = new DefaultMidiModuleDatabase ();
-		
+
 		public abstract MidiModuleDefinition Resolve (string moduleName);
 	}
 
@@ -23,18 +23,18 @@ namespace Commons.Music.Midi
 		{
 			List = new List<MidiModuleDatabase> ();
 		}
-		
+
 		public IList<MidiModuleDatabase> List { get; private set; }
-		
+
 		public override MidiModuleDefinition Resolve (string moduleName)
 		{
 			return List.Select (d => d.Resolve (moduleName)).FirstOrDefault (m => m != null);
 		}
 	}
-	
+
 	class DefaultMidiModuleDatabase : MidiModuleDatabase
 	{
-		static readonly Assembly ass = typeof (DefaultMidiModuleDatabase).GetTypeInfo ().Assembly;
+		static readonly Assembly ass = typeof(DefaultMidiModuleDatabase).GetTypeInfo ().Assembly;
 
 		// am too lazy to adjust resource names :/
 		public static Stream GetResource (string name)
@@ -97,7 +97,7 @@ namespace Commons.Music.Midi
 
 		public void Save (Stream stream)
 		{
-			var ds = new DataContractJsonSerializer (typeof (MidiModuleDefinition));
+			var ds = new DataContractJsonSerializer (typeof(MidiModuleDefinition));
 			ds.WriteObject (stream, this);
 		}
 
@@ -111,8 +111,8 @@ namespace Commons.Music.Midi
 
 		public static MidiModuleDefinition Load (Stream stream)
 		{
-			var ds = new DataContractJsonSerializer (typeof (MidiModuleDefinition));
-			return (MidiModuleDefinition) ds.ReadObject (stream);
+			var ds = new DataContractJsonSerializer (typeof(MidiModuleDefinition));
+			return (MidiModuleDefinition)ds.ReadObject (stream);
 		}
 	}
 
@@ -140,7 +140,7 @@ namespace Commons.Music.Midi
 		{
 			Programs = new List<MidiProgramDefinition> ();
 		}
-		
+
 		[DataMember]
 		public string Name { get; set; }
 
@@ -163,6 +163,7 @@ namespace Commons.Music.Midi
 
 		[DataMember]
 		public string Name { get; set; }
+
 		[DataMember]
 		public int Index { get; set; }
 
@@ -181,8 +182,10 @@ namespace Commons.Music.Midi
 	{
 		[DataMember]
 		public string Name { get; set; }
+
 		[DataMember]
 		public int Msb { get; set; }
+
 		[DataMember]
 		public int Lsb { get; set; }
 	}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C6B5506E-C266-4224-ABC4-13F797252397}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ManagedMidi</RootNamespace>
+    <AssemblyName>ManagedMidi</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="base\MidiAccessManager.cs" />
+    <Compile Include="base\MidiMachine.cs" />
+    <Compile Include="base\MidiPlayer.cs" />
+    <Compile Include="base\MidiTimeManager.cs" />
+    <Compile Include="base\SMF.cs" />
+    <Compile Include="module-database\MidiModuleDatabase.cs" />
+    <Compile Include="portmidi\PortMidiAccess.cs" />
+    <Compile Include="portmidi\PortMidiPlayer.cs" />
+    <Compile Include="portmidi\PortMidiSharp.cs" />
+    <Compile Include="rtmidi\RtMidiAccess.cs" />
+    <Compile Include="rtmidi\RtMidiPlayer.cs" />
+    <Compile Include="rtmidi\RtMidiSharp.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="module-database\data\README" />
+    <None Include="module-database\data\midi-module-catalog.txt" />
+    <None Include="module-database\data\ms_gs_wavetable_synth.midimod" />
+    <None Include="module-database\data\roland_sc-88.midimod" />
+    <None Include="module-database\data\roland_sc-8820.midimod" />
+    <None Include="module-database\data\roland_sc-88pro.midimod" />
+    <None Include="module-database\data\yamaha_motif-rack_es.midimod" />
+    <None Include="portmidi\README" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="None" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

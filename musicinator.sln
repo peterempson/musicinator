@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ManagedMidi", "ManagedMidi\ManagedMidi.shproj", "{F514C5DB-F6A4-46D2-A3CD-A940CF2D54DE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", "{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maestro", "Maestro\Maestro.csproj", "{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedMidi", "ManagedMidi\ManagedMidi.csproj", "{C6B5506E-C266-4224-ABC4-13F797252397}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{F146970B-8E02-4450-B3A1-F2CCB4C40523}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,5 +19,17 @@ Global
 		{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}.Debug|x86.Build.0 = Debug|x86
 		{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}.Release|x86.ActiveCfg = Release|x86
 		{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}.Release|x86.Build.0 = Release|x86
+		{C6B5506E-C266-4224-ABC4-13F797252397}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6B5506E-C266-4224-ABC4-13F797252397}.Debug|x86.Build.0 = Debug|Any CPU
+		{C6B5506E-C266-4224-ABC4-13F797252397}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6B5506E-C266-4224-ABC4-13F797252397}.Release|x86.Build.0 = Release|Any CPU
+		{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}.Release|x86.Build.0 = Release|Any CPU
+		{F146970B-8E02-4450-B3A1-F2CCB4C40523}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F146970B-8E02-4450-B3A1-F2CCB4C40523}.Debug|x86.Build.0 = Debug|Any CPU
+		{F146970B-8E02-4450-B3A1-F2CCB4C40523}.Release|x86.ActiveCfg = Release|Any CPU
+		{F146970B-8E02-4450-B3A1-F2CCB4C40523}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
