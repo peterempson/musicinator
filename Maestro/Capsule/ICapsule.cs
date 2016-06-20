@@ -3,7 +3,7 @@ using Maestro.Minion;
 
 namespace Maestro.Capsule
 {
-	public interface ICapsule: IComparable
+	public interface ICapsule
 	{
 		IMinion GetReadiedMinion (long tick);
 
@@ -13,6 +13,7 @@ namespace Maestro.Capsule
 
 		long GetTicksToComplete ();
 
+		IMinion PeekAtNextMinion ();
 	}
 }
 

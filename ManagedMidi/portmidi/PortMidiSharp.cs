@@ -122,7 +122,7 @@ namespace Commons.Music.Midi.PortMidi
 		internal MidiDeviceInfo (int id, IntPtr ptr)
 		{
 			this.id = id;
-			this.info = (PmDeviceInfo) Marshal.PtrToStructure (ptr, typeof (PmDeviceInfo));
+			this.info = (PmDeviceInfo)Marshal.PtrToStructure (ptr, typeof(PmDeviceInfo));
 		}
 
 		public int ID {
@@ -139,7 +139,9 @@ namespace Commons.Music.Midi.PortMidi
 		}
 
 		public bool IsInput { get { return info.Input != 0; } }
+
 		public bool IsOutput { get { return info.Output != 0; } }
+
 		public bool IsOpened { get { return info.Opened != 0; } }
 
 		public override string ToString ()
@@ -150,7 +152,7 @@ namespace Commons.Music.Midi.PortMidi
 
 	public abstract class MidiStream : IDisposable
 	{
-		public static IEnumerable<MidiEvent> Convert (byte [] bytes, int index, int size)
+		public static IEnumerable<MidiEvent> Convert (byte[] bytes, int index, int size)
 		{
 			int i = index;
 			int end = index + size;
@@ -158,12 +160,12 @@ namespace Commons.Music.Midi.PortMidi
 				if (bytes [i] == 0xF0 || bytes [i] == 0xF7) {
 					var tmp = new byte [size];
 					Array.Copy (bytes, i, tmp, 0, tmp.Length);
-					yield return new MidiEvent () {Message = new MidiMessage (0xF0, 0, 0), Data = tmp};
+					yield return new MidiEvent () { Message = new MidiMessage (0xF0, 0, 0), Data = tmp };
 					i += size + 1;
 				} else {
 					if (end < i + 3)
 						throw new MidiException (MidiErrorType.NoError, string.Format ("Received data was incomplete to build MIDI status message for '{0:X}' status.", bytes [i]));
-					yield return new MidiEvent () {Message = new MidiMessage (bytes [i], bytes [i + 1], bytes [i + 2])};
+					yield return new MidiEvent () { Message = new MidiMessage (bytes [i], bytes [i + 1], bytes [i + 2]) };
 					i += 3;
 				}
 			}
@@ -215,14 +217,14 @@ namespace Commons.Music.Midi.PortMidi
 			get { return PortMidiMarshal.Pm_Poll (stream) == MidiErrorType.GotData; }
 		}
 
-		public int Read (byte [] buffer, int index, int length)
+		public int Read (byte[] buffer, int index, int length)
 		{
 			var gch = GCHandle.Alloc (buffer);
 			try {
 				var ptr = Marshal.UnsafeAddrOfPinnedArrayElement (buffer, index);
 				int size = PortMidiMarshal.Pm_Read (stream, ptr, length);
 				if (size < 0)
-					throw new MidiException ((MidiErrorType) size, PortMidiMarshal.Pm_GetErrorText ((PmError) size));
+					throw new MidiException ((MidiErrorType)size, PortMidiMarshal.Pm_GetErrorText ((PmError)size));
 				return size * 4;
 			} finally {
 				gch.Free ();
@@ -249,29 +251,29 @@ namespace Commons.Music.Midi.PortMidi
 		{
 			var ret = PortMidiMarshal.Pm_WriteShort (stream, when, msg);
 			if (ret != PmError.NoError)
-				throw new MidiException (ret, String.Format ("Failed to write message {0} : {1}", msg.Value, PortMidiMarshal.Pm_GetErrorText ((PmError) ret)));
+				throw new MidiException (ret, String.Format ("Failed to write message {0} : {1}", msg.Value, PortMidiMarshal.Pm_GetErrorText ((PmError)ret)));
 		}
 
-		public void WriteSysEx (PmTimestamp when, byte [] sysex)
+		public void WriteSysEx (PmTimestamp when, byte[] sysex)
 		{
 			var ret = PortMidiMarshal.Pm_WriteSysEx (stream, when, sysex);
 			if (ret != PmError.NoError)
-				throw new MidiException (ret, String.Format ("Failed to write sysex message : {0}", PortMidiMarshal.Pm_GetErrorText ((PmError) ret)));
+				throw new MidiException (ret, String.Format ("Failed to write sysex message : {0}", PortMidiMarshal.Pm_GetErrorText ((PmError)ret)));
 		}
 
-		public void Write (MidiEvent [] buffer)
+		public void Write (MidiEvent[] buffer)
 		{
 			Write (buffer, 0, buffer.Length);
 		}
 
-		public void Write (MidiEvent [] buffer, int index, int length)
+		public void Write (MidiEvent[] buffer, int index, int length)
 		{
 			var gch = GCHandle.Alloc (buffer);
 			try {
 				var ptr = Marshal.UnsafeAddrOfPinnedArrayElement (buffer, index);
 				var ret = PortMidiMarshal.Pm_Write (stream, ptr, length);
 				if (ret != PmError.NoError)
-					throw new MidiException (ret, String.Format ("Failed to write messages : {0}", PortMidiMarshal.Pm_GetErrorText ((PmError) ret)));
+					throw new MidiException (ret, String.Format ("Failed to write messages : {0}", PortMidiMarshal.Pm_GetErrorText ((PmError)ret)));
 			} finally {
 				gch.Free ();
 			}
@@ -286,7 +288,7 @@ namespace Commons.Music.Midi.PortMidi
 		#if !PORTABLE // FIXME: wait, P/Invoke exists without [NonSerialized]!?
 		[NonSerialized]
 		#endif
-		byte [] data;
+		byte[] data;
 
 		public MidiMessage Message {
 			get { return msg; }
@@ -415,7 +417,10 @@ namespace Commons.Music.Midi.PortMidi
 		public static extern PmError Pm_SetFilter (PortMidiStream stream, MidiFilter filters);
 
 		// TODO
-		public static int Pm_Channel (int channel) { return 1 << channel; }
+		public static int Pm_Channel (int channel)
+		{
+			return 1 << channel;
+		}
 
 		[DllImport ("portmidi")]
 		public static extern PmError Pm_SetChannelMask (PortMidiStream stream, int mask);
@@ -427,11 +432,20 @@ namespace Commons.Music.Midi.PortMidi
 		public static extern PmError Pm_Close (PortMidiStream stream);
 
 		// TODO
-		public static int Pm_MessageStatus (int msg) { return ((msg) & 0xFF); }
+		public static int Pm_MessageStatus (int msg)
+		{
+			return ((msg) & 0xFF);
+		}
 		// TODO
-		public static int Pm_MessageData1 (int msg) { return (((msg) >> 8) & 0xFF); }
+		public static int Pm_MessageData1 (int msg)
+		{
+			return (((msg) >> 8) & 0xFF);
+		}
 		// TODO
-		public static int Pm_MessageData2 (int msg) { return (((msg) >> 16) & 0xFF); }
+		public static int Pm_MessageData2 (int msg)
+		{
+			return (((msg) >> 16) & 0xFF);
+		}
 
 		[DllImport ("portmidi")]
 		public static extern int Pm_Read (PortMidiStream stream, IntPtr buffer, int length);
@@ -446,20 +460,25 @@ namespace Commons.Music.Midi.PortMidi
 		public static extern PmError Pm_WriteShort (PortMidiStream stream, PmTimestamp when, MidiMessage msg);
 
 		[DllImport ("portmidi")]
-		public static extern PmError Pm_WriteSysEx (PortMidiStream stream, PmTimestamp when, byte [] msg);
+		public static extern PmError Pm_WriteSysEx (PortMidiStream stream, PmTimestamp when, byte[] msg);
 	}
 
 	[StructLayout (LayoutKind.Sequential)]
 	struct PmDeviceInfo
 	{
 		[MarshalAs (UnmanagedType.SysInt)]
-		public int StructVersion; // it is not actually used.
-		public IntPtr Interface; // char*
-		public IntPtr Name; // char*
+		public int StructVersion;
+		// it is not actually used.
+		public IntPtr Interface;
+		// char*
+		public IntPtr Name;
+		// char*
 		[MarshalAs (UnmanagedType.SysInt)]
-		public int Input; // 1 or 0
+		public int Input;
+		// 1 or 0
 		[MarshalAs (UnmanagedType.SysInt)]
-		public int Output; // 1 or 0
+		public int Output;
+		// 1 or 0
 		[MarshalAs (UnmanagedType.SysInt)]
 		public int Opened;
 

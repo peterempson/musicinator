@@ -1,60 +1,70 @@
 ﻿using System;
-using Wintellect.PowerCollections;
+using System.Collections.Generic;
+using System.Linq;
 using Maestro.Minion;
+using Maestro.Control;
+using System.Threading;
 
 namespace Maestro.Capsule
 {
 	public class BigCapsule: ICapsule
 	{
-		private readonly OrderedSet<ICapsule> capsules;
+
+		private readonly ISet<ICapsule> capsules;
 		private readonly long ticksToStart;
+		private bool canDispose;
 
 		public BigCapsule (long ticksToStart, params ICapsule[] capsules)
 		{
 			this.ticksToStart = ticksToStart;
-			this.capsules = new OrderedSet<ICapsule> (capsules);
+			this.capsules = new SortedSet<ICapsule> (capsules, new Equalizer ());
+			this.canDispose = false;
 		}
 
-		IMinion ICapsule.GetReadiedMinion (long tick)
+		public IMinion GetReadiedMinion (long tick)
+		{
+			lock (this.capsules) {
+				if (capsules.Count == 0)
+					return null;
+				ICapsule c = capsules.Min ();
+				IMinion m = c.GetReadiedMinion (tick - this.ticksToStart);
+				if (m != null) {
+					if (c.CanDispose ()) {
+						capsules.Remove (c);
+					}
+					this.canDispose |= capsules.Count == 0;
+				}
+				return m;
+			}
+		}
+
+		public IMinion PeekAtNextMinion ()
 		{
 			if (capsules.Count == 0)
 				return null;
 			ICapsule c = capsules.GetFirst ();
-			IMinion m = c.GetReadiedMinion (tick - this.ticksToStart);
-			if (c.CanDispose ()) {
-				capsules.RemoveFirst ();
-			}
-			return m;
+			return c.PeekAtNextMinion ();
 		}
 
-		bool ICapsule.CanDispose ()
+		public bool CanDispose ()
 		{
-			return capsules.Count == 0;
+			return this.canDispose;
 		}
 
 		public long GetTicksToStart ()
 		{
+			if (capsules.Count == 0)
+				return 0;
 			return this.ticksToStart + this.capsules.GetFirst ().GetTicksToStart ();
 		}
 
-		long ICapsule.GetTicksToComplete ()
+		public long GetTicksToComplete ()
 		{
 			long ticks = 0;
 			this.capsules.ForEach (capsule => ticks += capsule.GetTicksToComplete ());
 			return ticks;
 		}
 
-		int IComparable.CompareTo (object obj)
-		{
-			if (obj == null)
-				return 1;
-
-			ICapsule otherCapsule = obj as ICapsule;
-			if (otherCapsule != null)
-				return this.GetTicksToStart ().CompareTo (otherCapsule.GetTicksToStart ());
-			else
-				throw new ArgumentException ("Object is not an ICapsule");
-		}
 
 		public static ICapsule GetMarchingMinions (long ticksToStart, params ICapsule[] capsules)
 		{

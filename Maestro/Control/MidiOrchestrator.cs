@@ -25,8 +25,7 @@ namespace Maestro.Control
 		{
 			IMidiMinion m = minion as IMidiMinion;
 			if (m != null) {
-				Console.Write (".");
-				byte[] juices = m.ExtractJuices ();
+				byte[] juices = m.ExtractJuices (0);
 				output.SendAsync (juices, 0, 3, 0);
 			}
 

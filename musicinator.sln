@@ -9,12 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedMidi", "ManagedMidi\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{F146970B-8E02-4450-B3A1-F2CCB4C40523}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musicinator", "Musicinator\Musicinator.csproj", "{0C294DC0-EBC7-4B1E-B54C-66946E2C2772}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C294DC0-EBC7-4B1E-B54C-66946E2C2772}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C294DC0-EBC7-4B1E-B54C-66946E2C2772}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C294DC0-EBC7-4B1E-B54C-66946E2C2772}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C294DC0-EBC7-4B1E-B54C-66946E2C2772}.Release|x86.Build.0 = Release|Any CPU
 		{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}.Debug|x86.ActiveCfg = Debug|x86
 		{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}.Debug|x86.Build.0 = Debug|x86
 		{BF649BA2-3E7A-46DF-9A5D-2A43F639C1DD}.Release|x86.ActiveCfg = Release|x86

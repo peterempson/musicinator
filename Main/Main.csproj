@@ -35,16 +35,17 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="App.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Maestro\Maestro.csproj">
-      <Project>{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}</Project>
-      <Name>Maestro</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ManagedMidi\ManagedMidi.csproj">
       <Project>{C6B5506E-C266-4224-ABC4-13F797252397}</Project>
       <Name>ManagedMidi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Musicinator\Musicinator.csproj">
+      <Project>{0C294DC0-EBC7-4B1E-B54C-66946E2C2772}</Project>
+      <Name>Musicinator</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

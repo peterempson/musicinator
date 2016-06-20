@@ -4,7 +4,7 @@ namespace Maestro.Minion
 {
 	public interface IMidiMinion: IMinion
 	{
-		byte[] ExtractJuices ();
+		byte[] ExtractJuices (int channel);
 	}
 }
 

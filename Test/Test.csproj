@@ -32,21 +32,24 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.5.9\lib\net45\Moq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TimeSignatureTest.cs" />
     <Compile Include="NoteTest.cs" />
     <Compile Include="CapsuleTest.cs" />
+    <Compile Include="TickTockTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Maestro\Maestro.csproj">
-      <Project>{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}</Project>
-      <Name>Maestro</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ManagedMidi\ManagedMidi.csproj">
       <Project>{C6B5506E-C266-4224-ABC4-13F797252397}</Project>
       <Name>ManagedMidi</Name>

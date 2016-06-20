@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D7125070-83F7-4B0B-BA23-A38CBDD8A2DB}</ProjectGuid>
+    <ProjectGuid>{0C294DC0-EBC7-4B1E-B54C-66946E2C2772}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Maestro</RootNamespace>
-    <AssemblyName>Maestro</AssemblyName>
+    <RootNamespace>Musicinator</RootNamespace>
+    <AssemblyName>Musicinator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,45 +29,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="ClassLibrary2">
-      <HintPath>..\packages\Elders.PowerCollections.1.0.0\lib\net45\ClassLibrary2.dll</HintPath>
-    </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Capsule\BigCapsule.cs" />
-    <Compile Include="Capsule\ICapsule.cs" />
-    <Compile Include="Capsule\SmallCapsule.cs" />
-    <Compile Include="Control\MidiOrchestrator.cs" />
-    <Compile Include="Control\MidiThings.cs" />
-    <Compile Include="Control\Orchestrator.cs" />
-    <Compile Include="Control\TaskMaster.cs" />
-    <Compile Include="Control\TickTock.cs" />
-    <Compile Include="Control\TimeSignature.cs" />
-    <Compile Include="Minion\IMidiMinion.cs" />
-    <Compile Include="Minion\IMinion.cs" />
-    <Compile Include="Minion\Note.cs" />
-    <Compile Include="Minion\OffNote.cs" />
-    <Compile Include="Minion\ProgramChange.cs" />
-    <Compile Include="Control\Equalizer.cs" />
+    <Compile Include="Model\IMinion.cs" />
+    <Compile Include="Model\IGang.cs" />
+    <Compile Include="Model\Impl\Note.cs" />
+    <Compile Include="Model\Impl\ChainGang.cs" />
+    <Compile Include="Processor\IGrinder.cs" />
+    <Compile Include="Processor\Impl\MidiMinionGrinder.cs" />
+    <Compile Include="Processor\TockTicker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Capsule\" />
-    <Folder Include="Control\" />
-    <Folder Include="Minion\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ManagedMidi\ManagedMidi.csproj">
-      <Project>{C6B5506E-C266-4224-ABC4-13F797252397}</Project>
-      <Name>ManagedMidi</Name>
-    </ProjectReference>
+    <Folder Include="Model\" />
+    <Folder Include="Model\Impl\" />
+    <Folder Include="Processor\" />
+    <Folder Include="Processor\Impl\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -78,4 +56,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\ManagedMidi\ManagedMidi.csproj">
+      <Project>{C6B5506E-C266-4224-ABC4-13F797252397}</Project>
+      <Name>ManagedMidi</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

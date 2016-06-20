@@ -31,31 +31,24 @@ namespace Maestro.Capsule
 			return null;
 		}
 
+		public IMinion PeekAtNextMinion ()
+		{
+			return this.Minion;
+		}
+
 		public bool CanDispose ()
 		{
 			return this.canDispose;
 		}
 
-		long ICapsule.GetTicksToStart ()
+		public long GetTicksToStart ()
 		{
 			return ticksToStart;
 		}
 
-		long ICapsule.GetTicksToComplete ()
+		public long GetTicksToComplete ()
 		{
 			return Minion.TicksToComplete ();
-		}
-
-		public int CompareTo (object obj)
-		{
-			if (obj == null)
-				return 1;
-
-			SmallCapsule otherCapsule = obj as SmallCapsule;
-			if (otherCapsule != null)
-				return this.ticksToStart.CompareTo (otherCapsule.ticksToStart);
-			else
-				throw new ArgumentException ("Object is not a Capsule");
 		}
 
 		public override String ToString ()

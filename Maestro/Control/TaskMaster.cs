@@ -1,5 +1,6 @@
 ﻿using System;
 using Maestro.Minion;
+using System.Collections.Generic;
 
 namespace Maestro.Control
 {
@@ -12,12 +13,14 @@ namespace Maestro.Control
 			this.midiOrchestrator = new MidiOrchestrator ();
 		}
 
-		public void Invoke (IMinion minion)
+		public void Invoke (List<IMinion> minions)
 		{
-			if (minion is IMidiMinion)
-				this.midiOrchestrator.Invoke ((IMidiMinion)minion);
-			else
-				throw new Exception ("Bad minion");
+			minions.ForEach (minion => {
+				if (minion is IMidiMinion)
+					this.midiOrchestrator.Invoke ((IMidiMinion)minion);
+				else
+					throw new Exception ("Bad minion");
+			});
 		}
 	}
 }

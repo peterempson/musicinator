@@ -12,7 +12,7 @@ namespace Maestro.Minion
 
 		public int NoteVelocity { get; private set; }
 
-		Note (Pitch pitch, int value, int velocity)
+		public Note (Pitch pitch, int value, int velocity)
 		{
 			this.NotePitch = pitch;
 			// test >0 && <= 64 && power of 2
@@ -24,9 +24,11 @@ namespace Maestro.Minion
 			this.NoteVelocity = velocity;
 		}
 
-		public byte[] ExtractJuices ()
+		public byte[] ExtractJuices (int channel)
 		{
-			return new byte[]{ (byte)MidiThings.Control.NoteOn, (byte)NotePitch, (byte)NoteVelocity };
+			if (channel < 0 || channel > 15)
+				throw new ArgumentException ("Channel is between 0 and 15");
+			return new byte[]{ (byte)(MidiThings.Control.NoteOn + channel), (byte)NotePitch, (byte)NoteVelocity };
 		}
 
 		public long TicksToComplete ()

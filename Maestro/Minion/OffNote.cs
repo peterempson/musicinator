@@ -5,16 +5,18 @@ namespace Maestro.Minion
 {
 	public class OffNote: IMidiMinion
 	{
-		private Note.Pitch notePitch;
+		public Note.Pitch NotePitch { get; private set; }
 
 		public OffNote (Note.Pitch pitch)
 		{
-			this.notePitch = pitch;
+			this.NotePitch = pitch;
 		}
 
-		public byte[] ExtractJuices ()
+		public byte[] ExtractJuices (int channel)
 		{
-			return new byte[]{ (byte)MidiThings.Control.NoteOff, (byte)notePitch, 0 };
+			if (channel < 0 || channel > 15)
+				throw new ArgumentException ("Channel is between 0 and 15");
+			return new byte[]{ (byte)(MidiThings.Control.NoteOff + channel), (byte)NotePitch, 0 };
 		}
 
 
@@ -22,6 +24,12 @@ namespace Maestro.Minion
 		{
 			return 0;
 		}
+
+		public override String ToString ()
+		{
+			return String.Format ("Off Note: {0}", NotePitch);
+		}
+
 
 	}
 }
