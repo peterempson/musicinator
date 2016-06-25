@@ -42,6 +42,7 @@
     <Compile Include="Model\LoneWolf.cs" />
     <Compile Include="Model\Impl\Deuce.cs" />
     <Compile Include="Model\Impl\Scuttler.cs" />
+    <Compile Include="Model\Impl\Gang.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
