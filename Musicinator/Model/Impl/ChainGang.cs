@@ -1,47 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using Musicinator.Model;
+using System.Linq;
 
 namespace Musicinator.Model.Impl
 {
-	//	public class ChainGang: IGang
-	//	{
-	//		public long Start { get { return ns.Start; } }
-	//
-	//		public long Duration { get { return ns.Duration; } }
-	//
-	//		private List<IMinion> minionsEtc;
-	//		private int state;
-	//
-	//		public ChainGang (params IMinion[] minions)
-	//		{
-	//			this.minionsEtc = new List<IMinion> (minions);
-	//			this.state = 1;
-	//		}
-	//
-	//		public IMinion GetSacrificialMinion ()
-	//		{
-	//			IMinion result = null;
-	//			switch (this.state) {
-	//			case 1:
-	//				result = this.ns;
-	//				this.state++;
-	//				break;
-	//			case 2:
-	//				result = this.ne;
-	//				this.state++;
-	//				break;
-	//			}
-	//			return result;
-	//		}
-	//
-	//		public bool FizzledOut ()
-	//		{
-	//			bool result = this.state == 3;
-	//			this.state = 1;
-	//			return result;
-	//		}
-	//
-	//	}
+	public class ChainGang : IGang
+	{
+		private List<IGang> minionsEtc;
+		private int current;
+		private long duration;
+		private List<long> startTimes;
+
+		public ChainGang (params IGang[] minions)
+		{
+			this.minionsEtc = new List<IGang> (minions);
+			this.duration = minions.Sum (m => m.Duration);
+			this.current = 0;
+			long total = 0;
+			this.startTimes = minionsEtc.Select (x => {
+				long result = total;
+				total += x.Duration;
+				return result;
+			}).ToList ();
+		}
+
+		public long TimeToKill { get { return startTimes [this.current] + minionsEtc [this.current].TimeToKill; } }
+
+		public long Duration { get { return this.duration; } }
+
+		public IMinion GetSacrificialMinion ()
+		{
+			if (this.current == minionsEtc.Count)
+				return null;
+			IMinion result = minionsEtc [this.current].GetSacrificialMinion ();
+			;
+			if (minionsEtc [this.current].FizzledOut) {
+				minionsEtc [this.current].Reset ();
+				this.current++;
+			}
+			return result;
+		}
+
+		public bool FizzledOut {
+			get {
+				bool result = this.current == minionsEtc.Count;
+				return result;
+			}
+		}
+
+		public void Reset ()
+		{
+			this.current = 0;
+		}
+		
+	}
 }
 

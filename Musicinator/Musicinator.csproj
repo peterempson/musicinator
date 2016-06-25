@@ -34,11 +34,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\IMinion.cs" />
     <Compile Include="Model\IGang.cs" />
-    <Compile Include="Model\Impl\Note.cs" />
     <Compile Include="Model\Impl\ChainGang.cs" />
     <Compile Include="Processor\IGrinder.cs" />
     <Compile Include="Processor\Impl\MidiMinionGrinder.cs" />
     <Compile Include="Processor\TockTicker.cs" />
+    <Compile Include="Model\Impl\InstrumentChange.cs" />
+    <Compile Include="Model\LoneWolf.cs" />
+    <Compile Include="Model\Impl\Deuce.cs" />
+    <Compile Include="Model\Impl\Scuttler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

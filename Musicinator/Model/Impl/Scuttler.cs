@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using Musicinator.Model;
+using Musicinator.Processor;
+using System.Linq;
+
+namespace Musicinator.Model.Impl
+{
+	/// <summary>
+	/// So named as the bell shaped curve that determines the likelyhood of any minion being sacrificed
+	/// is reminscent of bell bottom trowsers the like of which were worn by scuttlers; youth gangs 
+	/// in late 19th Century Manchester. 
+	/// </summary>
+	public class Scuttler: IGang
+	{
+		private List<IGang> minionsEtc;
+		private int current;
+		private readonly Gaussianator gr;
+		private long timeKilled;
+
+		public Scuttler (int notes, params IGang[] minions)
+		{
+			this.Duration = TimeSignature.GetTicksForNotes (notes);
+			this.minionsEtc = new List<IGang> (minions);
+			this.timeKilled = 0;
+
+			this.gr = new Gaussianator (this.minionsEtc.Count - 1);
+			this.current = gr.GetGaussian ();
+		}
+
+		public long TimeToKill { 
+			get { 
+				return this.timeKilled + minionsEtc [this.current].TimeToKill; 
+			} 
+		}
+
+		public long Duration { get; private set; }
+
+		public IMinion GetSacrificialMinion ()
+		{
+			IMinion result = minionsEtc [this.current].GetSacrificialMinion ();
+			if (minionsEtc [this.current].FizzledOut) {
+				this.timeKilled += minionsEtc [this.current].Duration;
+				this.current = gr.GetGaussian ();
+				minionsEtc [this.current].Reset ();
+			}
+			return result;
+		}
+
+		public bool FizzledOut {
+			get {
+				return this.timeKilled >= Duration;
+			}
+		}
+
+		public void Reset ()
+		{
+			this.timeKilled = 0;
+			this.current = gr.GetGaussian ();
+		}
+
+
+		class Gaussianator
+		{
+			private double nextNextGaussian;
+			private bool haveNextNextGaussian;
+			private readonly Random rand;
+			private readonly int range;
+
+			public Gaussianator (int range)
+			{
+				this.nextNextGaussian = 0;
+				this.haveNextNextGaussian = false;
+				this.rand = new Random ();
+				this.range = range;
+			}
+
+			public int GetGaussian ()
+			{  // ported from Oracle Java
+				if (haveNextNextGaussian) {
+					haveNextNextGaussian = false;
+					if (nextNextGaussian > range)
+						return range;
+					return (int)(nextNextGaussian * range / 4); // standard deviations
+				} else {
+					double v1, v2, s;
+					do {
+						v1 = rand.NextDouble ();
+						v2 = rand.NextDouble ();
+						s = v1 * v1 + v2 * v2;
+					} while (s >= 1 || s == 0);
+					double multiplier = Math.Sqrt (-2 * Math.Log (s) / s);
+					nextNextGaussian = this.range * v2 * multiplier;
+					haveNextNextGaussian = true;
+					double res = v1 * multiplier;
+					if (res > range)
+						return range;
+					return (int)(res * this.range / 4); // standard deviations
+				}
+
+			}
+		}
+	}
+}
+

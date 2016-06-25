@@ -38,10 +38,6 @@ namespace Maestro.Control
 
 		private void Tock (Object state)
 		{
-			if (tick == 24) {
-				Console.WriteLine ("{0} *** {1}", tick, capsules);
-				
-			}
 			List<IMinion> toDo = new List<IMinion> ();
 			lock (this.capsules) {
 				long t = tick++;

@@ -30,23 +30,57 @@ namespace Main
 
 		void doit ()
 		{
+			TimeSignature timeSig = new TimeSignature (4, 4, 120);
+			TockTicker t = new TockTicker (timeSig);
 
-			TockTicker t = new TockTicker (new TimeSignature (4, 4, 120));
+
+			ChainGang cg1 = new ChainGang (
+				                new Drum (DrumPitch.AcousticBassDrum, 4, 100), 
+				                new Drum (DrumPitch.AcousticSnare, 4, 100),
+				                new Drum (DrumPitch.AcousticBassDrum, 4, 100),
+				                new Drum (DrumPitch.AcousticSnare, 4, 100)
+			                );
+
+			ChainGang cg2 = new ChainGang (
+				                new Drum (DrumPitch.AcousticBassDrum, 8, 100), 
+				                new Drum (DrumPitch.AcousticBassDrum, 8, 100), 
+				                new Drum (DrumPitch.AcousticSnare, 8, 100),
+				                new Drum (DrumPitch.AcousticBassDrum, 8, 100), 
+				                new Drum (DrumPitch.AcousticBassDrum, 4, 100),
+				                new Drum (DrumPitch.AcousticBassDrum, 8, 100), 
+				                new Drum (DrumPitch.AcousticSnare, 8, 100)
+			                );
+
+			ChainGang cg3 = new ChainGang (
+				                new Drum (DrumPitch.AcousticBassDrum, 2, 100), 
+				                new Drum (DrumPitch.AcousticBassDrum, 4, 100),
+				                new Drum (DrumPitch.AcousticSnare, 4, 100)
+			                );
+
+			ChainGang cg4 = new ChainGang (
+				                new Drum (DrumPitch.AcousticBassDrum, 4, 100), 
+				                new Drum (DrumPitch.AcousticSnare, 8, 100),
+				                new Drum (DrumPitch.AcousticSnare, 8, 100),
+				                new Drum (DrumPitch.AcousticBassDrum, 4, 100),
+				                new Drum (DrumPitch.AcousticSnare, 4, 100)
+			                );
+
+			Scuttler b = new Scuttler (timeSig.GetNoteForBars (8), cg1, cg2, cg3, cg4);
 
 
-			Note note = new Note (0, Pitch.C4, 4, 100);
-			MidiMinionGrinder minionGrinder = new MidiMinionGrinder ();
-			minionGrinder.Grind (note.GetSacrificialMinion ());
+			IGang playThis = b;
+			MidiMinionGrinder minionGrinder = new MidiMinionGrinder (9);
 
 			t.Start ();
-
-			byte[] juices = minionGrinder.ExtractJuices ();
-			output.SendAsync (juices, 0, juices.Length, 0);
-
-			t.SleepUntil (note.Start);
-			minionGrinder.Grind (note.GetSacrificialMinion ());
-			juices = minionGrinder.ExtractJuices ();
-			output.SendAsync (juices, 0, juices.Length, 0);
+			while (!playThis.FizzledOut) {
+				t.SleepUntil (playThis.TimeToKill);
+				do {
+					IMinion m = playThis.GetSacrificialMinion ();
+					minionGrinder.Grind (m);
+				} while (false); // while (timetokill hasn't changed)
+				byte[] juices = minionGrinder.ExtractJuices ();
+				output.SendAsync (juices, 0, juices.Length, 0);
+			}
 
 			Console.ReadLine ();
 		}

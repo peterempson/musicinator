@@ -27,16 +27,21 @@ namespace Musicinator.Processor
 
 		public void SleepUntil (long tick)
 		{
-			if (tick <= this.tick)
-				return;
-			Thread.Sleep (this.ts.MSPerTick * (int)(tick - this.tick));
+			//Console.Write (tick + ":" + this.tick + "...");
+			if (tick > this.tick) {
+				Thread.Sleep (this.ts.MSPerTick * (int)(tick - this.tick));
+			}
+			if (this.tick != tick)
+				Console.WriteLine ("Tick Error: " + (this.tick - tick));
 		}
 
 	}
 
 	public class TimeSignature
 	{
+		[Obsolete]
 		public static int TICKS_PER_QUARTER_NOTE = 24;
+		public static int TICKS_PER_NOTE = 96;
 
 		public TimeSignature (int BeatsPerBar, int BeatsPerWholeNote, int bpm)
 		{
@@ -61,9 +66,29 @@ namespace Musicinator.Processor
 			this.MSPerTick = 60000 / ticksPerMinute;
 		}
 
-		public static long GetTicksForNote (int NoteValue)
+		public static long GetTicksForNote (int noteValue)
 		{
-			return TimeSignature.TICKS_PER_QUARTER_NOTE * 4 / NoteValue;
+			return TimeSignature.TICKS_PER_NOTE / noteValue;
+		}
+
+		/// <summary>
+		/// Gets the ticks for the number of notes.
+		/// </summary>
+		/// <returns>The ticks for notes.</returns>
+		/// <param name="notes">Notes.</param>
+		public static long GetTicksForNotes (int notes)
+		{
+			return TimeSignature.TICKS_PER_NOTE * notes;
+		}
+
+		/// <summary>
+		/// How many whole notes for this number of bars.
+		/// </summary>
+		/// <returns>The number of notes.</returns>
+		/// <param name="bars">the number of bars.</param>
+		public int GetNoteForBars (int bars)
+		{
+			return bars * this.BeatsPerWholeNote / this.BeatsPerBar;
 		}
 	}
 }

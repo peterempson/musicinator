@@ -10,10 +10,13 @@ namespace Musicinator.Processor.Impl
 	{
 		private List< IMinion> minions;
 
-		public MidiMinionGrinder ()
+		public MidiMinionGrinder (int channel)
 		{
 			this.minions = new List<IMinion> ();
+			this.Channel = channel;
 		}
+
+		public int Channel { get; set; }
 
 		public void Grind (IMinion minion)
 		{
@@ -36,13 +39,21 @@ namespace Musicinator.Processor.Impl
 		{
 			if (minion is NoteStart) {
 				NoteStart m = minion as NoteStart;
-				return new byte[]{ (byte)Control.NoteOn, (byte)m.NotePitch, (byte)m.Velocity };
+				return new byte[]{ (byte)(Control.NoteOn + Channel), (byte)m.NotePitch, (byte)m.Velocity };
 			} else if (minion is NoteEnd) {
 				NoteEnd m = minion as NoteEnd;
-				return new byte[]{ (byte)Control.NoteOff, (byte)m.NotePitch, 0 };
-			}
-			return new byte[3];
-
+				return new byte[]{ (byte)(Control.NoteOff + Channel), (byte)m.NotePitch, 0 };
+			} else if (minion is DrumStart) {
+				DrumStart m = minion as DrumStart;
+				return new byte[]{ (byte)(Control.NoteOn + Channel), (byte)(35 + m.DrumPitch), (byte)m.Velocity };
+			} else if (minion is DrumEnd) {
+				DrumEnd m = minion as DrumEnd;
+				return new byte[]{ (byte)(Control.NoteOff + Channel), (byte)(35 + m.DrumPitch), 0 };
+			} else if (minion is InstrumentChange) {
+				InstrumentChange m = minion as InstrumentChange;
+				return new byte[]{ (byte)(Control.Program + Channel), (byte)m.NewInstrument, 0 };
+			} 
+			throw new InvalidOperationException ("Minion not recognised for processing: " + minion);
 		}
 	}
 
