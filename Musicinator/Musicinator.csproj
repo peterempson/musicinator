@@ -39,10 +39,14 @@
     <Compile Include="Processor\Impl\MidiMinionGrinder.cs" />
     <Compile Include="Processor\TockTicker.cs" />
     <Compile Include="Model\Impl\InstrumentChange.cs" />
-    <Compile Include="Model\LoneWolf.cs" />
     <Compile Include="Model\Impl\Deuce.cs" />
     <Compile Include="Model\Impl\Scuttler.cs" />
     <Compile Include="Model\Impl\Gang.cs" />
+    <Compile Include="Model\Impl\LoneWolf.cs" />
+    <Compile Include="Processor\KickSequencer.cs" />
+    <Compile Include="Model\Impl\League.cs" />
+    <Compile Include="Processor\BassSequencer.cs" />
+    <Compile Include="Processor\ChordProgressor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

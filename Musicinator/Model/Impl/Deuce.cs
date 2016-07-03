@@ -8,23 +8,23 @@ namespace Musicinator.Model.Impl
 	{
 		private IMinion ns;
 		private IMinion ne;
-		private int noteValue;
+		private double noteLength;
 		private int state;
 
-		public Deuce (IMinion ns, IMinion ne, int noteValue)
+		protected Deuce (IMinion ns, IMinion ne, double noteLength)
 		{
 			this.ns = ns;
 			this.ne = ne;
-			this.noteValue = noteValue;
+			this.noteLength = noteLength;
 			this.state = 1;
 		}
 
-		public long Duration { get { return TimeSignature.GetTicksForNote (this.noteValue); } }
+		public long Duration { get { return TimeSignature.GetTicksForNote (this.noteLength); } }
 
 		public long TimeToKill {
 			get {
 				if (state == 2)
-					return TimeSignature.GetTicksForNote (this.noteValue);
+					return TimeSignature.GetTicksForNote (this.noteLength);
 				return 0;
 			}
 		}
@@ -62,20 +62,30 @@ namespace Musicinator.Model.Impl
 
 	public class Note: Deuce
 	{
-		public Note (Pitch notePitch, int noteValue, int velocity) :
-			base (new NoteStart (notePitch, velocity), new NoteEnd (notePitch), noteValue)
+		public Note (Pitch notePitch, double noteLength, int velocity) :
+			base (new NoteStart (notePitch, velocity), new NoteEnd (notePitch), noteLength)
 		{
 		}
 	}
 
 	public class Drum: Deuce
 	{
-		public Drum (DrumPitch d, int noteValue, int velocity) :
-			base (new DrumStart (d, velocity), new DrumEnd (d), noteValue)
+		public Drum (DrumPitch d, double noteLength, int velocity) :
+			base (new DrumStart (d, velocity), new DrumEnd (d), noteLength)
 		{
 		}
 		
 	}
+
+	public class Rest: Deuce
+	{
+		public Rest (double noteLength) :
+			base (new NoOp (), new NoOp (), noteLength)
+		{
+		}
+
+	}
+
 
 	public class NoteEnd: IMinion
 	{
@@ -119,6 +129,13 @@ namespace Musicinator.Model.Impl
 
 		public int Velocity { get; private set; }
 
+	}
+
+	public class NoOp: IMinion
+	{
+		public NoOp ()
+		{
+		}
 	}
 
 

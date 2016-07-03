@@ -20,14 +20,28 @@ namespace Musicinator.Model.Impl
 
 		public abstract long Duration { get; }
 
-		public abstract IMinion GetSacrificialMinion ();
+		public IMinion GetSacrificialMinion ()
+		{
+			IMinion result = minionsEtc [this.current].GetSacrificialMinion ();
+			if (minionsEtc [this.current].FizzledOut) {
+				this.timeKilled += minionsEtc [this.current].Duration;
+
+				this.UpdateCurrent ();
+				if (this.current < minionsEtc.Count)
+					minionsEtc [this.current].Reset ();
+			}
+			return result;
+		}
+
+		protected abstract void UpdateCurrent ();
 
 		public abstract bool FizzledOut { get; }
 
-		public void Reset ()
+		public virtual void Reset ()
 		{
 			this.timeKilled = 0;
 			this.current = 0;
+			minionsEtc [this.current].Reset ();
 		}
 
 

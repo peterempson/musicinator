@@ -10,13 +10,10 @@ namespace Musicinator.Processor.Impl
 	{
 		private List< IMinion> minions;
 
-		public MidiMinionGrinder (int channel)
+		public MidiMinionGrinder ()
 		{
 			this.minions = new List<IMinion> ();
-			this.Channel = channel;
 		}
-
-		public int Channel { get; set; }
 
 		public void Grind (IMinion minion)
 		{
@@ -28,8 +25,10 @@ namespace Musicinator.Processor.Impl
 			byte[] result = new byte[this.minions.Count * 3];
 			int ix = 0;
 			this.minions.ForEach (minion => {
-				ProcessMinion (minion).CopyTo (result, ix);
-				ix += 3;
+				if (minion != null) {
+					ProcessMinion (minion).CopyTo (result, ix);
+					ix += 3;
+				}
 			});
 			this.minions = new List<IMinion> ();
 			return result;
@@ -38,21 +37,28 @@ namespace Musicinator.Processor.Impl
 		private byte[] ProcessMinion (IMinion minion)
 		{
 			if (minion is NoteStart) {
+				int Channel = 0;
 				NoteStart m = minion as NoteStart;
 				return new byte[]{ (byte)(Control.NoteOn + Channel), (byte)m.NotePitch, (byte)m.Velocity };
 			} else if (minion is NoteEnd) {
+				int Channel = 0;
 				NoteEnd m = minion as NoteEnd;
 				return new byte[]{ (byte)(Control.NoteOff + Channel), (byte)m.NotePitch, 0 };
 			} else if (minion is DrumStart) {
+				int Channel = 9;
 				DrumStart m = minion as DrumStart;
 				return new byte[]{ (byte)(Control.NoteOn + Channel), (byte)(35 + m.DrumPitch), (byte)m.Velocity };
 			} else if (minion is DrumEnd) {
+				int Channel = 9;
 				DrumEnd m = minion as DrumEnd;
 				return new byte[]{ (byte)(Control.NoteOff + Channel), (byte)(35 + m.DrumPitch), 0 };
 			} else if (minion is InstrumentChange) {
+				int Channel = 0;
 				InstrumentChange m = minion as InstrumentChange;
 				return new byte[]{ (byte)(Control.Program + Channel), (byte)m.NewInstrument, 0 };
-			} 
+			} else if (minion is NoOp) {
+				return null;
+			}
 			throw new InvalidOperationException ("Minion not recognised for processing: " + minion);
 		}
 	}

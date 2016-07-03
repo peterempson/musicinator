@@ -1,7 +1,7 @@
 ﻿using System;
 using Musicinator.Processor;
 
-namespace Musicinator.Model
+namespace Musicinator.Model.Impl
 {
 	public abstract class LoneWolf: IGang, IMinion
 	{

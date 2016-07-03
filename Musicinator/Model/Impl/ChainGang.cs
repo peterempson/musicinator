@@ -17,18 +17,9 @@ namespace Musicinator.Model.Impl
 
 		public override long Duration { get { return this.duration; } }
 
-		public override IMinion GetSacrificialMinion ()
+		protected override void UpdateCurrent ()
 		{
-			if (this.current == minionsEtc.Count)
-				return null;
-			IMinion result = minionsEtc [this.current].GetSacrificialMinion ();
-			if (minionsEtc [this.current].FizzledOut) {
-				this.timeKilled += minionsEtc [this.current].Duration;
-
-				minionsEtc [this.current].Reset ();
-				this.current++;
-			}
-			return result;
+			this.current++;
 		}
 
 		public override bool FizzledOut {

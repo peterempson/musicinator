@@ -13,27 +13,37 @@ namespace Musicinator.Model.Impl
 	/// </summary>
 	public class Scuttler: Gang
 	{
-		private readonly Gaussianator gr;
 		private long duration;
+		private int[] index;
+		private int ix;
 
 		public Scuttler (int notes, params IGang[] minions) : base (minions)
 		{
-			this.duration = TimeSignature.GetTicksForNotes (notes);
-			this.gr = new Gaussianator (this.minionsEtc.Count - 1);
-			this.current = gr.GetGaussian ();
+			this.duration = TimeSignature.GetTicksForNote (notes);
+			Gaussianator gr = new Gaussianator (this.minionsEtc.Count - 1);
+
+			this.index = Enumerable
+				.Repeat (0, 50)  // TODO: 50? praps calculate this somehow
+				.Select (i => gr.GetGaussian ())
+				.ToArray ();
+			
+			this.ix = 0;
+			this.current = this.index [ix];
 		}
 
 		public override long Duration { get { return this.duration; } }
 
-		public override IMinion GetSacrificialMinion ()
+		protected override void UpdateCurrent ()
 		{
-			IMinion result = minionsEtc [this.current].GetSacrificialMinion ();
-			if (minionsEtc [this.current].FizzledOut) {
-				this.timeKilled += minionsEtc [this.current].Duration;
-				this.current = gr.GetGaussian ();
-				minionsEtc [this.current].Reset ();
-			}
-			return result;
+			this.ix++;
+			this.current = this.index [ix];
+		}
+
+		public override void Reset ()
+		{
+			base.Reset ();
+			this.ix = 0;
+			this.current = this.index [ix];
 		}
 
 		public override bool FizzledOut {

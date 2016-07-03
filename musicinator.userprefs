@@ -1,16 +1,6 @@
 ﻿<Properties StartupItem="Main/Main.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Musicinator/Model/IMinion.cs">
-    <Files>
-      <File FileName="Maestro/Capsule/BigCapsule.cs" Line="1" Column="1" />
-      <File FileName="Main/Program.cs" Line="1" Column="1" />
-      <File FileName="Maestro/Minion/Note.cs" Line="1" Column="1" />
-      <File FileName="Maestro/Control/TickTock.cs" Line="31" Column="23" />
-      <File FileName="Musicinator/MyClass.cs" Line="1" Column="1" />
-      <File FileName="Musicinator/Model/IMinion.cs" Line="1" Column="1" />
-      <File FileName="Musicinator/Model/IGang.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
